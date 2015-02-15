@@ -10,7 +10,13 @@ module.exports = function(url) {
 			var partialUrl = event.request.getUrl().toString();
 
 			if (!/^http(s)?:\/\//.test(partialUrl)) {
-				event.request.setUrl(url+partialUrl);
+
+				if (url[url.length-1] === '/' && partialUrl[0] === '/') {
+					event.request.setUrl(url+partialUrl.substr(1));
+				} else {
+					event.request.setUrl(url+partialUrl);
+				}
+
 			}
 
 		});

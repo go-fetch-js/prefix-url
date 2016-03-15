@@ -6,7 +6,7 @@ const Request = Client.Request;
 
 describe('prefix-url', () => {
 
-  it('should call next', () => {
+  it('should call next()', () => {
 
     const client = {};
     client.before = sinon.stub().returns(client);

@@ -1,5 +1,6 @@
 {
   "name": "go-fetch-prefix-url",
+  "version": "1.0.0",
   "description": "Prefix each request URL with another URL unless the URL is absolute.",
   "keywords": [
     "url",
@@ -11,7 +12,6 @@
     "request",
     "fetch"
   ],
-  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:go-fetch-js/prefix-url.git"

@@ -1,6 +1,6 @@
 # go-fetch-prefix-url
 
-[![Build Status](https://travis-ci.org/go-fetch-js/json.svg?branch=master)](https://travis-ci.org/go-fetch-js/json)
+[![Build Status](https://travis-ci.org/go-fetch-js/prefix-url.svg?branch=master)](https://travis-ci.org/go-fetch-js/prefix-url)
 
 Prefix each request URL with another URL unless the URL is absolute.
 

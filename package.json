@@ -1,6 +1,6 @@
 {
   "name": "go-fetch-prefix-url",
-  "description": "Prefix each request URL with another URL.",
+  "description": "Prefix each request URL with another URL unless the URL is absolute.",
   "keywords": [
     "url",
     "prefix-url",
@@ -11,21 +11,21 @@
     "request",
     "fetch"
   ],
-  "version": "0.2.0",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "git@github.com:go-fetch-js/prefix-url.git"
   },
-  "bugs": {
-    "url": "https://github.com/go-fetch-js/prefix-url/issues"
+  "peerDependencies": {
+    "go-fetch": ">=3.0.0"
   },
   "devDependencies": {
-    "go-fetch": "^2.0.0"
-  },
-  "peerDependencies": {
-    "go-fetch": "^2.0.0"
+    "chai": "^3.5.0",
+    "go-fetch": "^3.0.0",
+    "sinon": "^1.17.3"
   },
   "scripts": {
     "test": "mocha"
-  }
+  },
+  "license": "MIT"
 }

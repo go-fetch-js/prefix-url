@@ -1,98 +1,78 @@
-var assert = require('assert');
-var Client = require('go-fetch');
-var prefixUrl = require('..');
+const expect = require('chai').expect;
+const sinon = require('sinon');
+const Client = require('go-fetch');
+const prefixUrl = require('..');
+const Request = Client.Request;
 
-describe('prefix-url', function() {
+describe('prefix-url', () => {
 
-	it('should not prefix URLs which start with http://', function() {
+  it('should call next', () => {
 
-		var client    = new Client();
-		var plugin    = prefixUrl('http://api.github.com/');
-		var request   = new Client.Request('GET', 'http://www.digitaledgeit.com.au/favicon.ico');
-		var response  = new Client.Response();
-		var event     = new Client.Event({
-			name:     'before',
-			request:  request,
-			response: response
-		});
+    const client = {};
+    client.before = sinon.stub().returns(client);
+    prefixUrl('http://api.github.com')(client);
 
-		//init the plugin
-		plugin(client);
+    const req = new Request({url: 'http://www.digitaledgeit.com.au/favicon.ico'});
+    const next = sinon.spy();
+    client.before.callArgWith(0, req, next);
 
-		//run the plugin
-		client.emit(event);
+    expect(next.calledWith(null, req)).to.be.true;
 
-		//check the result
-		assert.equal(request.getUrl().toString(), 'http://www.digitaledgeit.com.au/favicon.ico');
+  });
 
-	});
+	it('should not prefix URLs which already start with http://', () => {
 
-	it('should not prefix URLs which start with https://', function() {
+    const client = {};
+    client.before = sinon.stub().returns(client);
+    prefixUrl('http://api.github.com')(client);
 
-		var client    = new Client();
-		var plugin    = prefixUrl('http://api.github.com/');
-		var request   = new Client.Request('GET', 'https://www.digitaledgeit.com.au/favicon.ico');
-		var response  = new Client.Response();
-		var event     = new Client.Event({
-			name:     'before',
-			request:  request,
-			response: response
-		});
+    const req = new Request({url: 'http://www.digitaledgeit.com.au/favicon.ico'});
+    const next = sinon.spy();
+    client.before.callArgWith(0, req, next);
 
-		//init the plugin
-		plugin(client);
-
-		//run the plugin
-		client.emit(event);
-
-		//check the result
-		assert.equal(request.getUrl().toString(), 'https://www.digitaledgeit.com.au/favicon.ico');
+		expect(req).property('url').to.be.equal('http://www.digitaledgeit.com.au/favicon.ico');
 
 	});
 
-	it('should prefix URLs which do not start with http(s)://', function() {
+	it('should not prefix URLs which already start with https://', () => {
 
-		var client    = new Client();
-		var plugin    = prefixUrl('https://api.github.com/');
-		var request   = new Client.Request('GET', 'users/digitaledgeit/repos');
-		var response  = new Client.Response();
-		var event     = new Client.Event({
-			name:     'before',
-			request:  request,
-			response: response
-		});
+    const client = {};
+    client.before = sinon.stub().returns(client);
+    prefixUrl('http://api.github.com')(client);
 
-		//init the plugin
-		plugin(client);
+    const req = new Request({url: 'https://www.digitaledgeit.com.au/favicon.ico'});
+    const next = sinon.spy();
+    client.before.callArgWith(0, req, next);
 
-		//run the plugin
-		client.emit(event);
-
-		//check the result
-		assert.equal(request.getUrl().toString(), 'https://api.github.com/users/digitaledgeit/repos');
+    expect(req).property('url').to.be.equal('https://www.digitaledgeit.com.au/favicon.ico');
 
 	});
 
-	it('should avoid double slashes from the middle', function() {
+	it('should prefix URLs which do not already start with http(s)://', () => {
 
-		var client    = new Client();
-		var plugin    = prefixUrl('https://api.github.com/');
-		var request   = new Client.Request('GET', '/users/digitaledgeit/repos');
-		var response  = new Client.Response();
-		var event     = new Client.Event({
-			name:     'before',
-			request:  request,
-			response: response
-		});
+    const client = {};
+    client.before = sinon.stub().returns(client);
+    prefixUrl('https://api.github.com/')(client);
 
-		//init the plugin
-		plugin(client);
+    const req = new Request({url: 'users/digitaledgeit/repos'});
+    const next = sinon.spy();
+    client.before.callArgWith(0, req, next);
 
-		//run the plugin
-		client.emit(event);
+    expect(req).property('url').to.be.equal('https://api.github.com/users/digitaledgeit/repos');
 
-		//check the result
-		assert.equal(request.getUrl().toString(), 'https://api.github.com/users/digitaledgeit/repos');
+	});
+
+	it('should avoid double slashes from the middle', () => {
+
+    const client = {};
+    client.before = sinon.stub().returns(client);
+    prefixUrl('https://api.github.com/')(client);
+
+    const req = new Request({url: '/users/digitaledgeit/repos'});
+    const next = sinon.spy();
+    client.before.callArgWith(0, req, next);
+
+    expect(req).property('url').to.be.equal('https://api.github.com/users/digitaledgeit/repos');
 
 	});
 

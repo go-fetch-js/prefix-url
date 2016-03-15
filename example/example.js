@@ -1,10 +1,11 @@
+'use strict';
 
-var HttpClient = require('go-fetch');
-var prefixUrl  = require('..');
+const Client = require('go-fetch');
+const prefixUrl = require('..');
 
-HttpClient()
+new Client()
 	.use(prefixUrl('https://api.github.com'))
-	.get('/repos/go-fetch-js/prefix-url', {'User-Agent': 'go-fetch'}, function(error, response) {
-		console.log(error, response.getStatus());
-	})
+	.get('/repos/go-fetch-js/prefix-url', {'User-Agent': 'go-fetch'})
+    .then(res => console.log(res.status))
+    .catch(err => console.error(err.stack))
 ;

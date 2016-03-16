@@ -76,4 +76,18 @@ describe('prefix-url', () => {
 
 	});
 
+  it('should prefix URL with a hostname and a directory', () => {
+
+    const client = {};
+    client.before = sinon.stub().returns(client);
+    prefixUrl('http://localhost/v1')(client);
+
+    const req = new Request({url: '/books'});
+    const next = sinon.spy();
+    client.before.callArgWith(0, req, next);
+
+    expect(req).property('url').to.be.equal('http://localhost/v1/books');
+
+  });
+
 });

@@ -76,6 +76,20 @@ describe('prefix-url', () => {
 
 	});
 
+  it('should add slash in the middle when neither part has one', () => {
+
+    const client = {};
+    client.before = sinon.stub().returns(client);
+    prefixUrl('https://api.github.com')(client);
+
+    const req = new Request({url: 'users/digitaledgeit/repos'});
+    const next = sinon.spy();
+    client.before.callArgWith(0, req, next);
+
+    expect(req).property('url').to.be.equal('https://api.github.com/users/digitaledgeit/repos');
+
+  });
+
   it('should prefix URL with a hostname and a directory', () => {
 
     const client = {};

@@ -12,6 +12,8 @@ module.exports = function(prefix) {
 
       if (prefix[prefix.length-1] === '/' && req.url[0] === '/') {
         req.url = prefix + req.url.substr(1);
+      } else if (prefix[prefix.length-1] !== '/' && req.url[0] !== '/') {
+        req.url = prefix + '/' + req.url;
       } else {
         req.url = prefix + req.url;
       }

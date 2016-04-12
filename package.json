@@ -1,6 +1,6 @@
 {
   "name": "go-fetch-prefix-url",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Prefix each request URL with another URL unless the URL is absolute.",
   "keywords": [
     "url",
